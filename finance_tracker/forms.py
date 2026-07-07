@@ -23,7 +23,19 @@ class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
         fields = ["date", "category", "wallet", "amount", "description"]
-        
+    
+    def __init__(self, *args, **kwargs):
+
+        user = kwargs.pop("user", None)
+
+        super().__init__(*args, **kwargs)
+
+        if user:
+            self.fields["wallet"].queryset = Wallet.objects.filter(owner=user)
+            self.fields["category"].queryset = Category.objects.filter(owner=user)
+
+
+
 class BudgetForm(forms.ModelForm):
 
     class Meta:
