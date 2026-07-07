@@ -1,0 +1,78 @@
+{
+  "info": {
+    "_postman_id": "b6a3ef5c-7a3e-4c2d-b25f-1d56675d86b3",
+    "name": "Finance Tracker API",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56652675",
+    "_collection_link": "https://go.postman.co/collection/56652675-b6a3ef5c-7a3e-4c2d-b25f-1d56675d86b3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "http://127.0.0.1:8000/api/expenses/",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token 5b97927376c5f773dca099dd5cf79ff895c3ba16",
+            "type": "default"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/expenses/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "expenses",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://127.0.0.1:8000/api/wallets/",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token 5b97927376c5f773dca099dd5cf79ff895c3ba16",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/wallets/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "wallets",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
