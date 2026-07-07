@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404
-from .forms import RegisterForm, WalletForm, ExpenseForm, BudgetForm
-from .models import Wallet, Expense, Budget
+from .forms import RegisterForm, WalletForm, ExpenseForm, BudgetForm, CategoryForm
+from .models import Wallet, Expense, Budget, Category
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
@@ -193,6 +193,87 @@ def delete_expense(request, id):
     return render(request, "delete.html", {
         "expense": expense
     })
+
+@login_required
+def categories(request):
+
+    categories = Category.objects.filter(owner=request.user)
+
+    return render(request, "categories.html", {
+        "categories": categories
+    })
+
+@login_required
+def add_category(request):
+
+    if request.method == "POST":
+
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.owner = request.user
+            category.save()
+
+            return redirect("categories")
+
+    else:
+        form = CategoryForm()
+
+    return render(request, "category_form.html", {
+        "form": form
+    })
+
+@login_required
+def edit_category(request, id):
+
+    category = get_object_or_404(
+        Category,
+        id=id,
+        owner=request.user
+    )
+
+    if request.method == "POST":
+
+        form = CategoryForm(
+            request.POST,
+            instance=category
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect("categories")
+
+    else:
+
+        form = CategoryForm(instance=category)
+
+    return render(request, "category_form.html", {
+        "form": form
+    })
+
+@login_required
+def delete_category(request, id):
+
+    category = get_object_or_404(
+        Category,
+        id=id,
+        owner=request.user
+    )
+
+    if request.method == "POST":
+
+        category.delete()
+
+        return redirect("categories")
+
+    return render(request, "delete_category.html", {
+        "category": category
+    })
+
+
 
 def register(request):
     if request.method == "POST":

@@ -10,6 +10,14 @@ class Wallet(models.Model):
     def str(self):
         return self.name
     
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+
+    def __str__(self):
+        return self.name
+    
 class Expense(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
@@ -28,3 +36,5 @@ class Budget(models.Model):
 
     def str(self):
         return str(self.limit)
+    
+

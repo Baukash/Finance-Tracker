@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Categories</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+
+<h1>Finance Tracker</h1>
+
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'wallets' %}">Wallets</a>
+    <a href="{% url 'expenses' %}">Expenses</a>
+    <a href="{% url 'budget' %}">Budget</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Categories</h2>
+
+<a class="btn" href="{% url 'add_category' %}">Add Category</a>
+
+</div>
+
+<table>
+
+<tr>
+    <th>Name</th>
+    <th>Actions</th>
+</tr>
+
+{% for category in categories %}
+
+<tr>
+
+<td>{{ category.name }}</td>
+
+<td>
+
+<a href="{% url 'edit_category' category.id %}">Edit</a> |
+
+<a href="{% url 'delete_category' category.id %}">Delete</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="2">No categories found.</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

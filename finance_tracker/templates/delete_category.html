@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Category</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+<h1>Finance Tracker</h1>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Delete Category</h2>
+
+<p>
+
+Are you sure you want to delete
+<strong>{{ category.name }}</strong>?
+
+</p>
+
+<form method="post">
+
+{% csrf_token %}
+
+<button type="submit">
+
+Delete
+
+</button>
+
+</form>
+
+<br>
+
+<a class="btn" href="{% url 'categories' %}">
+
+Cancel
+
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

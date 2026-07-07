@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Wallet, Expense, Budget
+from .models import Wallet, Expense, Budget, Category
 
 
 class RegisterForm(UserCreationForm):
@@ -29,3 +29,9 @@ class BudgetForm(forms.ModelForm):
     class Meta:
         model = Budget
         fields = ["limit"]
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        fields = ["name"]
