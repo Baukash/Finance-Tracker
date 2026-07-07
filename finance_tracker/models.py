@@ -21,3 +21,10 @@ class Expense(models.Model):
 
     def str(self):
         return str(self.amount)
+    
+class Budget(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    limit = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def str(self):
+        return str(self.limit)

@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+
+<h1>Finance Tracker</h1>
+
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'expenses' %}">Expenses</a>
+    <a href="{% url 'wallets' %}">Wallets</a>
+    <a href="{% url 'categories' %}">Categories</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Budget Limit</h2>
+
+<form method="post">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button type="submit">Save</button>
+
+</form>
+
+</div>
+
+<div class="card">
+
+<p><strong>Budget Limit:</strong> {{ budget.limit }} ₸</p>
+
+<p><strong>Total Expenses:</strong> {{ total_spent }} ₸</p>
+
+<p><strong>Remaining:</strong> {{ remaining }} ₸</p>
+
+{% if remaining >= 0 %}
+<p class="success">{{ message }}</p>
+{% else %}
+<p class="error">{{ message }}</p>
+{% endif %}
+
+</div>
+
+</div>
+
+</body>
+</html>

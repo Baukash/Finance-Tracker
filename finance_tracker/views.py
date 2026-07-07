@@ -3,9 +3,11 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404
-from .forms import RegisterForm, WalletForm, ExpenseForm
-from .models import Wallet, Expense
+from .forms import RegisterForm, WalletForm, ExpenseForm, BudgetForm
+from .models import Wallet, Expense, Budget
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 
 def home(request):
     return render(request, "home.html")
@@ -225,3 +227,74 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("home")
+
+
+class BudgetView(LoginRequiredMixin, View):
+
+    login_url = "login"
+
+    def get(self, request):
+
+        budget, created = Budget.objects.get_or_create(
+            owner=request.user,
+            defaults={"limit": 0}
+        )
+
+        expenses = Expense.objects.filter(owner=request.user)
+
+        total_spent = 0
+
+        for expense in expenses:
+            total_spent += expense.amount
+
+        remaining = budget.limit - total_spent
+
+        if remaining >= 0:
+            message = "You are within your budget."
+        else:
+            message = "You have exceeded your budget!"
+
+        form = BudgetForm(instance=budget)
+
+        return render(request, "budget.html", {
+            "form": form,
+            "budget": budget,
+            "total_spent": total_spent,
+            "remaining": remaining,
+            "message": message,
+        })
+
+    def post(self, request):
+
+        budget, created = Budget.objects.get_or_create(
+            owner=request.user,
+            defaults={"limit": 0}
+        )
+
+        form = BudgetForm(request.POST, instance=budget)
+
+        if form.is_valid():
+            form.save()
+            return redirect("budget")
+
+        expenses = Expense.objects.filter(owner=request.user)
+
+        total_spent = 0
+
+        for expense in expenses:
+            total_spent += expense.amount
+
+        remaining = budget.limit - total_spent
+
+        if remaining >= 0:
+            message = "You are within your budget."
+        else:
+            message = "You have exceeded your budget!"
+
+        return render(request, "budget.html", {
+            "form": form,
+            "budget": budget,
+            "total_spent": total_spent,
+            "remaining": remaining,
+            "message": message,
+        })
