@@ -7,7 +7,7 @@ class Wallet(models.Model):
     name = models.CharField(max_length=50)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def str(self):
+    def __str__(self):
         return self.name
     
 class Category(models.Model):
@@ -27,14 +27,14 @@ class Expense(models.Model):
     description = models.TextField(blank=True)
     date = models.DateField()
 
-    def str(self):
+    def __str__(self):
         return str(self.amount)
     
 class Budget(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     limit = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def str(self):
+    def __str__(self):
         return str(self.limit)
     
 
