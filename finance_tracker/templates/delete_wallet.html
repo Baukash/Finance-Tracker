@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Wallet</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+
+<h1>Finance Tracker</h1>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Delete Wallet</h2>
+
+<p>
+Are you sure you want to delete
+<strong>{{ wallet.name }}</strong>?
+</p>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <button type="submit">
+        Delete
+    </button>
+
+</form>
+
+<br>
+
+<a class="btn" href="{% url 'wallets' %}">
+Cancel
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
