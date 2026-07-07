@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance Tracker</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+
+<h1>Finance Tracker</h1>
+
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'wallets' %}">Wallets</a>
+    <a href="{% url 'expenses' %}">Expenses</a>
+    <a href="{% url 'categories' %}">Categories</a>
+    <a href="{% url 'budget' %}">Budget</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Welcome{% if user.is_authenticated %}, {{ user.username }}{% endif %}!</h2>
+
+<p><strong>Total Balance:</strong> {{ total_balance }} ₸</p>
+
+<p>
+Manage your wallets, expenses, categories and budget from the navigation menu above.
+</p>
+
+{% if user.is_authenticated %}
+
+<a class="btn" href="{% url 'logout' %}">Logout</a>
+
+{% else %}
+
+<a class="btn" href="{% url 'login' %}">Login</a>
+<a class="btn" href="{% url 'register' %}">Register</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</body>
+</html>

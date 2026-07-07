@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+
+<h1>Finance Tracker</h1>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Create Account</h2>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Register</button>
+
+</form>
+
+<br>
+
+<p>
+Already have an account?
+</p>
+
+<a class="btn" href="{% url 'login' %}">Login</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
