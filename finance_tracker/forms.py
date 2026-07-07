@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Wallet
+from .models import Wallet, Expense
 
 
 class RegisterForm(UserCreationForm):
@@ -17,3 +17,9 @@ class WalletForm(forms.ModelForm):
     class Meta:
         model = Wallet
         fields = ["name", "balance"]
+        
+class ExpenseForm(forms.ModelForm):
+
+    class Meta:
+        model = Expense
+        fields = ["date", "category", "wallet", "amount", "description"]

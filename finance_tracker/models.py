@@ -9,3 +9,15 @@ class Wallet(models.Model):
 
     def str(self):
         return self.name
+    
+class Expense(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField(blank=True)
+    date = models.DateField()
+
+    def str(self):
+        return str(self.amount)

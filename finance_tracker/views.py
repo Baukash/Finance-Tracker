@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404
-from .forms import RegisterForm, WalletForm
-from .models import Wallet
+from .forms import RegisterForm, WalletForm, ExpenseForm
+from .models import Wallet, Expense
 from django.contrib.auth.decorators import login_required
 
 def home(request):
@@ -83,6 +83,97 @@ def delete_wallet(request, id):
 
     return render(request, "delete_wallet.html", {
         "wallet": wallet
+    })
+    
+@login_required
+def expenses(request):
+    expenses = Expense.objects.filter(owner=request.user)
+
+    return render(request, "expenses.html", {
+        "expenses": expenses
+    })
+
+@login_required
+def add_expense(request):
+
+    if request.method == "POST":
+
+        form = ExpenseForm(request.POST, user=request.user)
+
+        if form.is_valid():
+
+            expense = form.save(commit=False)
+            expense.owner = request.user
+
+            
+
+            expense.save()
+
+            return redirect("expenses")
+
+    else:
+        form = ExpenseForm(user=request.user)
+
+    return render(request, "expense_form.html", {
+        "form": form
+    })
+
+@login_required
+def edit_expense(request, id):
+
+    expense = get_object_or_404(
+        Expense,
+        id=id,
+        owner=request.user
+    )
+
+    if request.method == "POST":
+
+        original_wallet = expense.wallet
+        original_amount = expense.amount
+
+        form = ExpenseForm(
+            request.POST,
+            instance=expense,
+            user=request.user
+        )
+
+        if form.is_valid():
+
+            expense = form.save(commit=False)
+
+            
+
+            
+
+            expense.save()
+
+            return redirect("expenses")
+
+    else:
+
+        form = ExpenseForm(
+            instance=expense,
+            user=request.user
+        )
+
+    return render(request, "expense_form.html", {
+        "form": form
+    })
+
+@login_required
+def delete_expense(request, id):
+
+    expense = get_object_or_404(Expense, id=id, owner=request.user)
+
+    if request.method == "POST":
+
+        
+        expense.delete()
+        return redirect("expenses")
+
+    return render(request, "delete.html", {
+        "expense": expense
     })
 
 def register(request):

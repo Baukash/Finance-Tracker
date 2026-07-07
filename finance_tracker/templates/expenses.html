@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expenses</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+
+<h1>Finance Tracker</h1>
+
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'wallets' %}">Wallets</a>
+    <a href="{% url 'categories' %}">Categories</a>
+    <a href="{% url 'budget' %}">Budget</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Expenses</h2>
+
+<p><strong>Total Balance:</strong> {{ total_balance }} ₸</p>
+
+<a class="btn" href="{% url 'add_expense' %}">Add Expense</a>
+
+</div>
+
+<table>
+
+<tr>
+    <th>Date</th>
+    <th>Category</th>
+    <th>Wallet</th>
+    <th>Amount</th>
+    <th>Description</th>
+    <th>Actions</th>
+</tr>
+
+{% for expense in expenses %}
+
+<tr>
+
+<td>{{ expense.date }}</td>
+<td>{{ expense.category }}</td>
+<td>{{ expense.wallet }}</td>
+<td>{{ expense.amount }} ₸</td>
+<td>{{ expense.description }}</td>
+
+<td>
+
+<a href="{% url 'edit_expense' expense.id %}">Edit</a> |
+
+<a href="{% url 'delete_expense' expense.id %}">Delete</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="6">
+
+No expenses found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>
