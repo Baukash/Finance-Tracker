@@ -84,7 +84,7 @@ def delete_wallet(request, id):
     return render(request, "delete_wallet.html", {
         "wallet": wallet
     })
-    
+
 @login_required
 def expenses(request):
     expenses = Expense.objects.filter(owner=request.user)
@@ -105,7 +105,9 @@ def add_expense(request):
             expense = form.save(commit=False)
             expense.owner = request.user
 
-            
+            wallet = expense.wallet
+            wallet.balance -= expense.amount
+            wallet.save()
 
             expense.save()
 
@@ -142,7 +144,17 @@ def edit_expense(request, id):
 
             expense = form.save(commit=False)
 
-            
+            if original_wallet.pk != expense.wallet.pk:
+                original_wallet.balance += original_amount
+                original_wallet.save()
+
+                # Subtract from the selected wallet
+                expense.wallet.balance -= expense.amount
+                expense.wallet.save()
+            else:
+                difference = expense.amount - original_amount
+                expense.wallet.balance -= difference
+                expense.wallet.save()
 
             
 
@@ -168,7 +180,11 @@ def delete_expense(request, id):
 
     if request.method == "POST":
 
-        
+        wallet = expense.wallet
+
+        wallet.balance += expense.amount
+        wallet.save()
+
         expense.delete()
         return redirect("expenses")
 
